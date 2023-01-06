@@ -27,6 +27,20 @@ show tables;
 -- insert : DML(C)
 insert into pet values('마루', '언니', 'dog', 'f', '2021-01-01', null);
 
+-- select: DML(R)
 select * from pet;
 
+-- update: DML(U)
+update pet
+	set name='귀염둥이 마루' 
+    where name='마루';
 
+-- delete: DML(D)
+delete from pet where name='마리';
+
+-- load data
+load data local infile 'D:\pet.txt' into table pet;
+
+-- select 
+select * from pet where name ='bowser';
+select name, species from pet where name ='bowser';
