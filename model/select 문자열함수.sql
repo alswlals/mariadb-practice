@@ -11,7 +11,7 @@ select lower(first_name) from employees;
 -- substring(문자열, index, length)
 select substring('Hello world', 3, 2);
 
--- 예제) 1989년에 입사한 사원드르이 이름, 입사일을 출력하라
+-- 예제) 1989년에 입사한 사원들의 이름, 입사일을 출력하라
 select first_name, hire_date
 	from employees
     where substring(hire_date, 1, 4) = '1989';
