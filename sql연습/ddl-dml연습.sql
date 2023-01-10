@@ -22,3 +22,9 @@ desc member;
 alter table member add self_intro text;
 alter table member drop juminbunho;
 desc member;
+
+-- insert
+insert into member values(null, 'ahnjm0616@naver.com', password('1234'));
+
+-- update
+-- delete
