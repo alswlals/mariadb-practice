@@ -111,10 +111,4 @@ select a.dept_name, avg(d.salary), c.title
     where a.dept_no = b.dept_no and b.emp_no = c.emp_no and c.emp_no = d.emp_no and c.title = 'engineer'
 		  and b.to_date = '9999-01-01' and c.to_date = '9999-01-01' and d.to_date = '9999-01-01'
 	group by a.dept_name;
-    
-select a.dept_name, avg(d.salary), c.title
-	from departments a, dept_emp b, titles c, salaries d
-    where a.dept_no = b.dept_no and b.emp_no = c.emp_no and c.emp_no = d.emp_no and c.title = 'engineer'
-		  and b.to_date = '9999-01-01' and c.to_date = '9999-01-01' and d.to_date = '9999-01-01'
-	group by a.dept_name
-    order by avg(d.salary) desc;
+    -- order by avg(d.salary) desc;
