@@ -20,8 +20,8 @@ select count(gender)
 	from employees
     group by gender;
     
-select gender ,count(*), if(gender = 'f', '여', '남') as '직원 수 '
-from employees
+select if(gender = 'f', '여', '남') as '직원 수 ' ,count(*)
+	from employees
     group by gender;
      
 -- 문제4.
