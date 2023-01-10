@@ -112,3 +112,6 @@ select a.dept_name, avg(d.salary), c.title
 		  and b.to_date = '9999-01-01' and c.to_date = '9999-01-01' and d.to_date = '9999-01-01'
 	group by a.dept_name;
     -- order by avg(d.salary) desc;
+    
+    
+    

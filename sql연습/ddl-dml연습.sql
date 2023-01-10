@@ -24,7 +24,34 @@ alter table member drop juminbunho;
 desc member;
 
 -- insert
-insert into member values(null, 'ahnjm0616@naver.com', password('1234'));
+insert into member values(null, 'ahnjm0616@naver.com', password('1234'),'안지민','개발팀',null);
+select * from member;
+
+insert 
+	into member(no, email, name, dept, password) 
+	values(null, 'ahnjm0615@naver.com','안지민','개발팀', password('1234'));
+select * from member;
 
 -- update
+update member
+	set email = 'ahnjm0616111@naver.com', password=password('5678')
+    where no = 2;
+select * from member;
+
 -- delete
+delete
+	from member
+    where no = 2;
+select * from member;
+
+-- transaction
+select @@autocommit;
+set autocommit=0;
+
+insert 
+	into member(no, email, name, dept, password) 
+	values(null, 'ahnjm5@naver.com','안지민5','개발팀5', password('1234'));
+    
+select * from member;
+
+commit;
