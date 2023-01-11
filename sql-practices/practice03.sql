@@ -26,6 +26,7 @@ select a.emp_no, concat(a.first_name, ' ', a.last_name) as 'name', b.dept_name
 select a.emp_no, concat(a.first_name, ' ', a.last_name) as 'name', c.salary, d.title, b.dept_name
 	from employees a join departments b join salaries c join titles d join dept_emp e
     on a.emp_no = c.emp_no and c.emp_no = e.emp_no and a.emp_no = d.emp_no and e.dept_no = b.dept_no
+    where e.to_date = '9999-01-01' 
 	group by a.emp_no
     order by name; 
     
