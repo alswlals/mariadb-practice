@@ -2,8 +2,9 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 public class DeleteTest01 {
 
@@ -15,7 +16,7 @@ public class DeleteTest01 {
 	private static boolean delete(long no) {
 		boolean result = false;
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		
 		try {
 			/* 1. JDBC Driver Class Loading*/
@@ -26,14 +27,19 @@ public class DeleteTest01 {
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 			
 			/* 3. Statement 생성*/
-			stmt = conn.createStatement();
 			
-			/* 4. SQL 생성*/
 			String sql =
 					" delete" + 
 					" from dept" + 
-					" where no=" + no ;
-			int count = stmt.executeUpdate(sql);
+					" where no= ?" ;
+			pstmt = conn.prepareStatement(sql);
+			
+			// 바인딩
+			 pstmt.setLong(1, no);
+			
+			/* 4. SQL 생성*/
+			
+			int count = pstmt.executeUpdate(sql);
 			
 			/* 5. 결과 처리*/
 			result = count == 1;
@@ -45,8 +51,8 @@ public class DeleteTest01 {
 		} finally {
 			try {
 				
-				if(stmt != null) {
-					stmt.close();
+				if(pstmt != null) {
+					pstmt.close();
 				}
 				if(conn != null) {
 					conn.close();

@@ -2,10 +2,11 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class InsertTest01 {
+
+public class InsertTest02 {
 
 	public static void main(String[] args) {
 		insert("기획2팀");
@@ -15,7 +16,7 @@ public class InsertTest01 {
 	private static boolean insert(String deptName) {
 		boolean result = false;
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		
 		try {
 			/* 1. JDBC Driver Class Loading*/
@@ -25,15 +26,18 @@ public class InsertTest01 {
 			String url = "jdbc:mariadb://192.168.10.114:3307/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 			
-			/* 3. Statement 생성*/
-			stmt = conn.createStatement();
-			
-			/* 4. SQL 생성*/
+			/* 3. Statement 준비*/
 			String sql =
 					" insert" + 
 					"  into dept" + 
-					" values (null, '" + deptName + "')";
-			int count = stmt.executeUpdate(sql);
+					" values (null, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			/* 4. binding*/
+			pstmt.setString(1, deptName);
+			
+			/* 4. SQL 실행*/
+			int count = pstmt.executeUpdate(sql);
 			
 			/* 5. 결과 처리*/
 			result = count == 1;
@@ -45,8 +49,8 @@ public class InsertTest01 {
 		} finally {
 			try {
 				
-				if(stmt != null) {
-					stmt.close();
+				if(pstmt != null) {
+					pstmt.close();
 				}
 				if(conn != null) {
 					conn.close();
