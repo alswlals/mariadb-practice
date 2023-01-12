@@ -1,50 +1,58 @@
-package test;
+package hr.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SelectTest02 {
-	public static void main(String[] args) {
-		search("pet");
-	}
-	
-	public static void search(String keyword) {
+import hr.vo.EmployeeVo;
+
+public class EmployeeDao {
+	public List<EmployeeVo> findByName(String keyword) {
+		List<EmployeeVo> result = new ArrayList<>();
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			/* 1. JDBC Driver Class Loading*/
 			Class.forName("org.mariadb.jdbc.Driver");
 			
-			/* 2. 연결하기*/
 			String url = "jdbc:mariadb://192.168.10.114:3307/employees?charset=utf8";
 			conn = DriverManager.getConnection(url, "hr", "hr");
 			
-			/* 3. Statement 준비*/
 			String sql =
-					"select emp_no, first_name"
-					+ "	from employees"
-					+ " where first_name like ?";
+					"select emp_no, first_name, last_name, date_format(hire_date, '%Y-%m-%d')"+
+					" from employees "+
+					" where first_name like ?"+
+					" or last_name like ?";
 			
 			pstmt = conn.prepareStatement(sql);
-			
-			/* 4. binding*/
+		
 			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
 			
-			/* 5. SQL 생성*/
+
 			rs = pstmt.executeQuery();
 			
-			/* 6. 결과 처리*/
+
 			while(rs.next()) {
-				Long empNo = rs.getLong(1); //이름 적어줘도 됨 rs.getLong('emp_no');
+				Long no = rs.getLong(1); //이름 적어줘도 됨 rs.getLong('emp_no');
 				String firstName = rs.getString(2);
 				String lastName = rs.getString(3);
+				String hireDate = rs.getString(4);
 				
-				System.out.println(empNo + ":" + firstName + ":" + lastName);
+				EmployeeVo vo = new EmployeeVo();
+				
+				vo.setNo(no);
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+				vo.setHireDate(hireDate);
+				
+				result.add(vo);
 			}
 			
 		} catch (ClassNotFoundException e) {
@@ -55,7 +63,7 @@ public class SelectTest02 {
 			try {
 				if(rs != null) {
 					rs.close();
-			}
+				}
 				if(pstmt != null) {
 					pstmt.close();
 				}
@@ -66,9 +74,7 @@ public class SelectTest02 {
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
-			
 		}
-
+		return result;
 	}
-
 }
