@@ -28,9 +28,7 @@ public class InsertTest02 {
 			
 			/* 3. Statement 준비*/
 			String sql =
-					" insert" + 
-					"  into dept" + 
-					" values (null, ?)";
+					" insert into dept values (null, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			/* 4. binding*/

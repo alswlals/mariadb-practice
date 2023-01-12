@@ -2,10 +2,13 @@ package bookshop.dao.test;
 
 import java.util.List;
 
+import bookshop.dao.AuthorDao;
+import bookshop.vo.AuthorVo;
+
 public class AuthorDaoTest {
 
 	public static void main(String[] args) {
-		testInsert();
+		//testInsert();
 		testFindAll();
 
 	}
